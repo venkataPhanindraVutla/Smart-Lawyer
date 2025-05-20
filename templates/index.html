@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lawyer RAG</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #queryForm {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #queryInput {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        #queryButton {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #queryButton:hover {
+            background-color: #4cae4c;
+        }
+        #responseArea {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Lawyer RAG System</h1>
+        <form id="queryForm">
+            <input type="text" id="queryInput" placeholder="Enter your legal query here..." required>
+            <button type="submit" id="queryButton">Ask</button>
+        </form>
+        <div id="responseArea">
+            <!-- Response will be displayed here -->
+            Enter a query and click 'Ask' to get a response.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const queryInput = document.getElementById('queryInput');
+            const responseArea = document.getElementById('responseArea');
+            const query = queryInput.value;
+
+            responseArea.innerText = 'Loading...'; // Show loading indicator
+
+            try {
+                const response = await fetch('/ask', { // We will create this endpoint in app.py
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    responseArea.innerText = data.response;
+                } else {
+                    responseArea.innerText = 'Error: ' + data.error;
+                }
+            } catch (error) {
+                responseArea.innerText = 'An error occurred: ' + error;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+pymupdf
+sentence-transformers
+langchain
+pypdf
+google-generativeai
+chromadb
+PyYAML
+jq
+Flask

@@ -1,0 +1,4 @@
+embedding_model: models/embedding-001
+chromadb_path: ./chroma_db
+data_dir: .\data
+google_api_key: AIzaSyBLRFCiSHYUy8pmjaRvb53w_9q2MrtAdGM
